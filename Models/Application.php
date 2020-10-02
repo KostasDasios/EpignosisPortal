@@ -55,7 +55,11 @@ class Application extends Model
     public function showAllApplications($id = null)
     {
         if($id){
-            $sql = "SELECT date_from, date_to, application_status.status, created_at FROM applications INNER JOIN user_applications ON applications.id = user_applications.application_id LEFT JOIN application_status ON applications.status = application_status.id; WHERE user_applications.user_id =" . $id;
+            $sql  = "SELECT date_from, date_to, application_status.status, created_at ";
+            $sql .= "FROM applications ";
+            $sql .= "INNER JOIN user_applications ON applications.id = user_applications.application_id ";
+            $sql .= "LEFT JOIN application_status ON applications.status = application_status.id ";
+            $sql .= "WHERE user_applications.user_id =" . $id;
             $req = Database::getConnection()->prepare($sql);
             $req->execute();
         }else{
