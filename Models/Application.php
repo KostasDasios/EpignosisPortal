@@ -1,6 +1,10 @@
 <?php
 class Application extends Model
 {
+    const STATUS_PENDING = 1;
+    const STATUS_APPROVED = 2;
+    const STATUS_REJECTED = 3;
+
     public function create($date_from, $date_to, $reason, $user_id)
     {
         $sql = "INSERT INTO applications (date_from, date_to, reason, status, created_at, updated_at) VALUES (:date_from, :date_to, :reason, :status, :created_at, :updated_at)";

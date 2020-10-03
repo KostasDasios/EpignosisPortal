@@ -65,7 +65,39 @@ class usersController extends Controller
                 header("Location: " . WEBROOT . "users/index");
             }
         }
+    }
 
+    function application_approve($id)
+    {
+        require(ROOT . 'Models/Application.php');
+
+        $applications = new Application();
+        $auth = new Auth();
+        
+        if($auth->aclCheck('application_approve', 'users')){
+
+            $applications->editStatus($id, Application::STATUS_APPROVED);
+
+            $d = array('id' => $id, 'status' => Application::STATUS_APPROVED);
+            $this->set($d);
+            $this->render("application_status");
+        }
+    }
+
+    function application_reject($id)
+    {
+        require(ROOT . 'Models/Application.php');
+
+        $applications = new Application();
+        $auth = new Auth();
+        
+        if($auth->aclCheck('application_reject', 'users')){
+            $applications->editStatus($id, Application::STATUS_REJECTED);
+
+            $d = array('id' => $id, 'status' => Application::STATUS_REJECTED);
+            $this->set($d);
+            $this->render("application_status");
+        }
     }
 }
 ?>
