@@ -112,6 +112,61 @@ class User extends Model
         return $id;
     }
 
+    public function getAdminEmail(): ?string
+    {
+        $email = NULL;
+        
+        $query = 'SELECT email FROM users WHERE (type = :type)';
+        $values = array(':type' => 1);
+        
+        try
+        {
+            $res = Database::getConnection()->prepare($query);
+            $res->execute($values);
+        }
+        catch (PDOException $e)
+        {
+           throw new Exception('Database query error');
+        }
+        
+        $row = $res->fetch(PDO::FETCH_ASSOC);
+        
+        if (is_array($row))
+        {
+            $email = $row['email'];
+        }
+        
+        return $email;
+    }
+
+    public function getUserIdByApplicationId($app_id): ?int
+    {
+        $user_id = NULL;
+        
+        $query = 'SELECT user_id FROM user_applications WHERE (application_id = :application_id)';
+        $values = array(':application_id' => $app_id);
+        
+        try
+        {
+            $res = Database::getConnection()->prepare($query);
+            $res->execute($values);
+        }
+        catch (PDOException $e)
+        {
+           throw new Exception('Database query error');
+        }
+        
+        $row = $res->fetch(PDO::FETCH_ASSOC);
+        
+        if (is_array($row))
+        {
+            $user_id = $row['user_id'];
+        }
+        
+        return $user_id;
+
+    }
+
     public function showUser($id)
     {
         $sql = "SELECT * FROM users WHERE id =" . $id;

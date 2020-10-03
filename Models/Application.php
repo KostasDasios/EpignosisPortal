@@ -27,7 +27,8 @@ class Application extends Model
         }
 
         $applications_id = Database::getConnection()->lastInsertId();
-        return $this->userApplicationReference($applications_id, $user_id);
+        $this->userApplicationReference($applications_id, $user_id);
+        return $applications_id;
     }
 
     public function userApplicationReference($application_id, $user_id)
@@ -97,7 +98,7 @@ class Application extends Model
         return $req->fetch();
     }
 
-    public function editStatus($id, $status)
+    public function editStatus(int $id, int $status): bool
     {
         $sql = "UPDATE applications SET status = :status, updated_at = :updated_at WHERE id = :id";
 

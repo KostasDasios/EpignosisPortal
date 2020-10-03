@@ -1,4 +1,7 @@
 <?php
+require(ROOT . 'Models/Application.php');
+require(ROOT . 'Models/Mail.php');
+
 class usersController extends Controller
 {
     function index()
@@ -69,14 +72,15 @@ class usersController extends Controller
 
     function application_approve($id)
     {
-        require(ROOT . 'Models/Application.php');
-
         $applications = new Application();
         $auth = new Auth();
+        $mail = new Mail();
         
         if($auth->aclCheck('application_approve', 'users')){
 
-            $applications->editStatus($id, Application::STATUS_APPROVED);
+            if($applications->editStatus($id, Application::STATUS_APPROVED)){
+                $mail->mailtoEmployee('accepted', $id);
+            }
 
             $d = array('id' => $id, 'status' => Application::STATUS_APPROVED);
             $this->set($d);
@@ -86,13 +90,15 @@ class usersController extends Controller
 
     function application_reject($id)
     {
-        require(ROOT . 'Models/Application.php');
-
         $applications = new Application();
         $auth = new Auth();
+        $mail = new Mail();
         
         if($auth->aclCheck('application_reject', 'users')){
-            $applications->editStatus($id, Application::STATUS_REJECTED);
+
+            if($applications->editStatus($id, Application::STATUS_REJECTED)){
+                $mail->mailtoEmployee('rejected', $id);
+            }
 
             $d = array('id' => $id, 'status' => Application::STATUS_REJECTED);
             $this->set($d);

@@ -1,10 +1,12 @@
 <?php
+
+require(ROOT . 'Models/Application.php');
+require(ROOT . 'Models/Mail.php');
+
 class applicationsController extends Controller
 {
     function index()
     {
-        require(ROOT . 'Models/Application.php');
-
         $applications = new Application();
 
         $d['applications'] = $applications->showAllApplications($this->getCurrentUser());
@@ -16,12 +18,12 @@ class applicationsController extends Controller
     {
         if (isset($_POST["date_from"]))
         {
-            require(ROOT . 'Models/Application.php');
-
             $application= new Application();
+            $mail = new Mail();
 
-            if ($application->create($_POST["date_from"], $_POST["date_to"], $_POST["reason"], $this->getCurrentUser()))
+            if ($applications_id = $application->create($_POST["date_from"], $_POST["date_to"], $_POST["reason"], $this->getCurrentUser()))
             {
+                $mail->mailtoAdmin($_POST["date_from"], $_POST["date_to"], $_POST["reason"], $this->getCurrentUser(), $applications_id);
                 header("Location: " . WEBROOT . "applications/index");
             }
         }
