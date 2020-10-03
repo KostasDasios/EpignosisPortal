@@ -252,16 +252,30 @@ class Auth extends Model
 
             if($current_user['type'] == 1){
                 if($class !== 'users'){
-                    header("Location: " . WEBROOT . "users/index");
+
+                	$next_url = $_SESSION["refURL"] ?? "users/index";
+                
+	                unset($_SESSION["refURL"]); //unset ref variable once admin logged in and redirected
+
+	                header("Location: " . WEBROOT . $next_url);                                    
                     return false;
                 }
             }else{
+
+            	unset($_SESSION["refURL"]); //unset ref variable if employee logged in
+
                 if($class !== 'applications'){
                     header("Location: " . WEBROOT . "applications/index");
                     return false;
                 }
             }
         }else{
+        	/* check if url is application approve/reject in order to set up session variable */
+        	preg_match('/EpignosisPortal(.*)/',$_SERVER['REQUEST_URI'], $matches);
+        	if (strpos($matches[1], 'application_') !== false) {
+			    $_SESSION["refURL"] = substr($matches[1], 1);
+			}
+
             if($filename !== 'login'){
                 header("Location: " . WEBROOT . "auth/login");
                 return false;
