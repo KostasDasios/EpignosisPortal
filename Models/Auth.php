@@ -188,12 +188,12 @@ class Auth extends Model
 		return $this->authenticated;
 	}
 
-	public function getId(): int
+	public function getId(): ?int
 	{
 		return $this->id;
 	}
 
-	public function getEmail(): string
+	public function getEmail(): ?string
 	{
 		return $this->email;
 	}
@@ -228,7 +228,8 @@ class Auth extends Model
 		}
 	}
 
-	public function aclCheck($filename, $class){
+	public function aclCheck(string $filename, string $class): bool
+	{
         $login = FALSE;
 
         $auth = new Auth();
