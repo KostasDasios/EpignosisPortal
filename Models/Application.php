@@ -65,6 +65,7 @@ class Application extends Model
             $sql .= "INNER JOIN user_applications ON applications.id = user_applications.application_id ";
             $sql .= "LEFT JOIN application_status ON applications.status = application_status.id ";
             $sql .= "WHERE user_applications.user_id =" . $id;
+            $sql .= " ORDER BY created_at DESC";
             $req = Database::getConnection()->prepare($sql);
             $req->execute();
         }else{
