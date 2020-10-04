@@ -12,9 +12,12 @@ class Application extends Model
         try
         {
             $req = Database::getConnection()->prepare($sql);
+
+            require(ROOT . 'Helper/Data.php');
+
             $req->execute([
-                'date_from' => date("Y-m-d H:i:s", strtotime($date_from)),
-                'date_to' => date("Y-m-d H:i:s", strtotime($date_to)),
+                'date_from' => Data::getDbDateTimeFormat($date_from),
+                'date_to' => Data::getDbDateTimeFormat($date_to),
                 'reason' => $reason,
                 'status' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -91,10 +94,12 @@ class Application extends Model
 
         $req = Database::getConnection()->prepare($sql);
 
+        require(ROOT . 'Helper/Data.php');
+
         return $req->execute([
             'id' => $id,
-            'date_from' => date("Y-m-d H:i:s", strtotime($date_from)),
-            'date_to' => date("Y-m-d H:i:s", strtotime($date_to)),
+            'date_from' => Data::getDbDateTimeFormat($date_from),
+            'date_to' => Data::getDbDateTimeFormat($date_to),
             'reason' => $reason,
             'updated_at' => date('Y-m-d H:i:s')
         ]);
