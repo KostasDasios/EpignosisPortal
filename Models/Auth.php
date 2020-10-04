@@ -115,12 +115,12 @@ class Auth extends Model
 		{
 			/* 
 				Query template to look for the current session ID on the user_sessions table.
-				The query also make sure the Session is not older than 7 days
+				The query also make sure the Session is not older than 2 days
 			*/
 			$query = 
 			
 			'SELECT * FROM user_sessions, users WHERE (user_sessions.session_id = :sid) ' . 
-			'AND (user_sessions.login_time >= (NOW() - INTERVAL 7 DAY)) AND (user_sessions.user_id = users.id) ';
+			'AND (user_sessions.login_time >= (NOW() - INTERVAL 2 DAY)) AND (user_sessions.user_id = users.id) ';
 			
 			$values = array(':sid' => session_id());
 			
