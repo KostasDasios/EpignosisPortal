@@ -23,7 +23,7 @@ class Application extends Model
         }
         catch (PDOException $e)
         {
-           throw new Exception($e->getMessage());
+           throw new Exception('Database query error during Application Create');
         }
 
         $applications_id = Database::getConnection()->lastInsertId();
@@ -45,7 +45,7 @@ class Application extends Model
         }
         catch (PDOException $e)
         {
-           throw new Exception($e->getMessage());
+           throw new Exception('Database query error during Application Create');
         }
     }
 
@@ -70,9 +70,18 @@ class Application extends Model
             $req->execute();
         }else{
             $sql = "SELECT * FROM applications";
+        }        
+
+        try
+        {
+            $req = Database::getConnection()->prepare($sql);
+            $req->execute();
         }
-        $req = Database::getConnection()->prepare($sql);
-        $req->execute();
+        catch (PDOException $e)
+        {
+           throw new Exception('Database query error');
+        }
+        
         return $req->fetchAll();
     }
 

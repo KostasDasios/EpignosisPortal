@@ -46,7 +46,7 @@ class User extends Model
         }
         catch (PDOException $e)
         {
-           throw new Exception($e->getMessage());
+           throw new Exception('Database query error');
         }
         
         /* Return the new ID */
@@ -237,7 +237,7 @@ class User extends Model
         }
         catch (PDOException $e)
         {
-           throw new Exception($e->getMessage());
+           throw new Exception('Database query error');
         }
 
         return $res->rowCount();
