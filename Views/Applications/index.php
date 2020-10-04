@@ -2,7 +2,7 @@
 <div class="row col-md-12 centered">
     <table class="table table-striped custab">
         <thead>
-        <a href="/EpignosisPortal/applications/create/" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new application</a>
+        <a href="/EpignosisPortal/applications/create/" class="btn btn-primary btn-xs pull-right"><b>+</b> Submit Request</a>
         <tr>
             <th>Date Submitted</th>
             <th>Dates Requested</th>
